@@ -1,0 +1,28 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Doctors Appoinment",
+      "day": "Feb 5th at 2:30",
+      "reminder": false
+    },
+    {
+      "id": 2,
+      "text": "Meeting at School",
+      "day": "Feb 6th at 1:30",
+      "reminder": false
+    },
+    {
+      "text": "Make it pay",
+      "day": "Every Day of HIS LIFE",
+      "reminder": false,
+      "id": 4
+    },
+    {
+      "text": "Adding Task",
+      "day": "Today",
+      "reminder": true,
+      "id": 5
+    }
+  ]
+}
