@@ -3,38 +3,31 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { motion } from "framer-motion";
 
-const AddTask = ( { onAdd } ) => {
-    const [text, setText] = useState('');    
-    const [date, setDate] = useState(new Date());    
-    const [reminder, setReminder] = useState(false);    
+const EditTask = ( { onEdit, taskToEdit } ) => {
+    const [text, setText] = useState(taskToEdit.text);    
+    const [date, setDate] = useState(new Date(taskToEdit.objectDate));    
+    const [reminder, setReminder] = useState(taskToEdit.reminder);    
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (!text) {
-            alert('Please add task')
-            return
-        }
         let completeDate = `${date.toLocaleDateString('es-ES')} ${date.toLocaleTimeString('en-US')}`;
-        onAdd({ text, date: completeDate, objectDate: date, reminder });
-
-        setText('');
-        setDate(new Date());
-        setReminder(false);
+        onEdit({ text, date: completeDate, objectDate: date, reminder });
+        
     }
 
     const variants = {
-        hidden: {opacity: 0.2, y: -25},
-        visible: {opacity: 1, translateY:25}
+        hidden: {opacity: 0.2, y: 75},
+        visible: {opacity: 1, translateY:-75, scaleY: 1}
     }
 
     return (
         <motion.div
-        initial='hidden'
-        animate='visible'
+        initial= 'hidden'
+        animate= 'visible'
         variants={variants}
-        transition={{duration: 0.2}}
+        transition={{duration: 0.20}}
         >
-        <h2>Add Task</h2>
+        <h2>Edit Task</h2>
         <form className='add-form' onSubmit={onSubmit}>
             <div className='form-control'>
                 <label>Task</label>
@@ -69,4 +62,4 @@ const AddTask = ( { onAdd } ) => {
     )
 }
 
-export default AddTask
+export default EditTask

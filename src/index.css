@@ -10,14 +10,36 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+h1.text-center.text-uppercase {
+  color: white;
+  background-color: green;
+  border-radius: 5px;
+  padding: 15px 0;
+}
+
 .container {
-  max-width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1080px;
   margin: 30px auto;
-  overflow: auto;
   min-height: 300px;
+}
+
+.col {
+  flex:auto;
   border: 1px solid steelblue;
   padding: 30px;
   border-radius: 5px;
+}
+
+.col-12 {
+  flex: 100%;
+  padding: 30px;
+}
+
+.container > * {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }
 
 .header {
@@ -106,7 +128,29 @@ body {
   height: 20px;
 }
 
+.highlighted {
+  border: #000 solid 2px;
+  background-color: azure;
+
+}
+
 footer {
   margin-top: 30px;
   text-align: center;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.me-1{
+  margin-right: 0.25rem;
+}
+
+.click-button:hover {
+  transform: scale(1.2);
 }
