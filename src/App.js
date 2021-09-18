@@ -195,7 +195,7 @@ function App() {
           variants={variantsForMainTask}
           >
           <Header onAdd={callAddTask} showAdd={showAddTask}/>
-          <Route path='/react-task-tracker' exact render={(props) => (
+          <Route path='/react-task-tracker/' exact render={(props) => (
             <>
               {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
               {showEditTask && !showAddTask && <EditTask onEdit={editTask}/>}
