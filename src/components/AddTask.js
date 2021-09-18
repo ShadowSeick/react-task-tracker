@@ -2,17 +2,28 @@ import { useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { motion } from "framer-motion";
+import Alert from "./Alert";
 
 const AddTask = ( { onAdd } ) => {
     const [text, setText] = useState('');    
     const [date, setDate] = useState(new Date());    
-    const [reminder, setReminder] = useState(false);    
+    const [reminder, setReminder] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertText, setAlertText] = useState('');
+    const maxTextLength = 40;   
 
     const onSubmit = (e) => {
         e.preventDefault();
         if (!text) {
-            alert('Please add task')
+            setShowAlert(true);
+            setAlertText('Please add a task');
             return
+        }
+
+        if (text.length > maxTextLength) {
+            setShowAlert(true);
+            setAlertText("The name task is too long. Only 25 characters long");
+            return;
         }
         let completeDate = `${date.toLocaleDateString('es-ES')} ${date.toLocaleTimeString('en-US')}`;
         onAdd({ text, date: completeDate, objectDate: date, reminder });
@@ -20,6 +31,7 @@ const AddTask = ( { onAdd } ) => {
         setText('');
         setDate(new Date());
         setReminder(false);
+        setShowAlert(false);
     }
 
     const variants = {
@@ -35,6 +47,7 @@ const AddTask = ( { onAdd } ) => {
         transition={{duration: 0.2}}
         >
         <h2>Add Task</h2>
+        {showAlert && <Alert alertText={alertText}/>}
         <form className='add-form' onSubmit={onSubmit}>
             <div className='form-control'>
                 <label>Task</label>

@@ -14,24 +14,64 @@ import { motion } from 'framer-motion';
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [showEditTask, setShowEditTask] = useState(false);
+  const [showFutureTasks, setShowFutureTasks] = useState(true);
+  const [showPastTasks, setShowPastTasks] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [todayTasks, setTodayTasks] = useState([]);
+  const [pastTasks, setPastTasks] = useState([]);
+  const [futureTasks, setFutureTasks] = useState([]);
   const [taskToEdit, setTaskToEdit] = useState({});
 
   useEffect(() => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks();
-      setTasks(tasksFromServer)
-      updateTodayTasks(tasksFromServer)
+      setTasks(tasksFromServer);
+      updateTodayTasks(tasksFromServer);
+      updateFutureTasks(tasksFromServer);
+      updatePastTasks(tasksFromServer);
     }
 
     getTasks();
   }, []);
 
 
+  // If true pass Future tasks, if false pass past tasks
+  const getPastOrFutureTasks = (tasks, futureOrPast) => {
+    let today = new Date();
+    today = [today.getFullYear(), today.getMonth(), today.getDate()]
+
+    futureOrPast = futureOrPast.toLowerCase() === 'future' ? true :
+                   futureOrPast.toLowerCase() === 'past' ? false :
+                   null;
+
+    return tasks.filter((task) => {
+      let taskDate = new Date(task.objectDate);
+      taskDate = [taskDate.getFullYear(), taskDate.getMonth(), taskDate.getDate()]
+      for (let i = 0; i < taskDate.length; i++) {
+          if (taskDate[i] > today[i]) return futureOrPast;
+      }
+      return !futureOrPast;
+    })
+  } 
+
+
   const updateTodayTasks = (tasks) => {
-    const today = new Date().getDate();
-    setTodayTasks(tasks.filter((task) => today === new Date(task.objectDate).getDate()))
+    const today = new Date().toDateString();
+    setTodayTasks(tasks.filter((task) => today === new Date(task.objectDate).toDateString()))
+  }
+
+  const updateFutureTasks = (tasks) => {
+    setFutureTasks(getPastOrFutureTasks(tasks, 'future'));
+  }
+
+  const updatePastTasks = (tasks) => {
+    setPastTasks(getPastOrFutureTasks(tasks, 'past'));
+  }
+
+  // Show Tasks
+  const showFutureOrPastTasks = () => {
+      setShowFutureTasks(!showFutureTasks);
+      setShowPastTasks(!showPastTasks);
   }
 
   // Fetch Tasks
@@ -71,10 +111,8 @@ function App() {
 
     setTasks([...tasks, data]);
     updateTodayTasks([...todayTasks, data]);
-
-    // const id = Math.floor(Math.random() * 10000) + 1;
-    // const newTask = { id, ...task};
-    // setTasks([...tasks, newTask]);
+    updateFutureTasks([...futureTasks, data]);
+    updatePastTasks([...pastTasks, data]);
   }
 
   // Call Edit Task
@@ -97,9 +135,14 @@ function App() {
     });
     const data = await res.json();
 
-    setTasks(tasks.map((task) => task.id === id ? data : task));
+    const updatedTasks = todayTasks.map((todayTask) => todayTask.id === id ? data : task);
+
+    setTasks(updatedTasks);
+    updateTodayTasks(updatedTasks);
+    updateFutureTasks(updatedTasks);
+    updatePastTasks(updatedTasks)
     setShowEditTask(false);  
-    updateTodayTasks(todayTasks.map((todayTask) => todayTask.id === id ? data : task));
+    
   }
 
   // Delete Task
@@ -107,8 +150,12 @@ function App() {
     await fetch(`http://localhost:5000/tasks/${id}`, 
     { method: 'DELETE' })
 
-    setTasks(tasks.filter((task) => task.id !== id ));
-    updateTodayTasks(todayTasks.filter((todayTask) => todayTask.id !== id));
+    const updatedTasks = tasks.filter((task) => task.id !== id )
+
+    setTasks(updatedTasks);
+    updateTodayTasks(updatedTasks);
+    updateFutureTasks(updatedTasks);
+    updatePastTasks(updatedTasks);
   }
 
   // Toggle Reminder
@@ -124,8 +171,12 @@ function App() {
 
     const data = await res.json();
 
-    setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task));
-    updateTodayTasks(tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task));
+    const updatedTasks = tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task);
+
+    setTasks(updatedTasks);
+    updateTodayTasks(updatedTasks);
+    updateFutureTasks(updatedTasks);
+    updatePastTasks(updatedTasks);
   }
 
   const variantsForMainTask = {
@@ -138,35 +189,55 @@ function App() {
     visible: {opacity: 1, translateX:200, scaleX: 1}
   }
 
+
+
   return (
     <Router>
       <div className='container'>
-        <motion.div className='col'
-        initial='hidden'
-        animate='visible'
-        variants={variantsForMainTask}
-        >
-        <Header onAdd={callAddTask} showAdd={showAddTask}/>
-        <Route path='/' exact render={(props) => (
-          <>
-            {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
-            {showEditTask && !showAddTask && <EditTask onEdit={editTask}  taskToEdit={taskToEdit} />}
-            {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} /> : ('No tasks To Show')}
-          </>
-        )} />
-        <Route path='/about' component={About}/>
-        <Footer/>
-        </motion.div>
-        <motion.div className='col'
-        initial='hidden'
-        animate='visible'
-        variants={variantsForCalendar}
-        transition={{delay: 1}}
-        >
-          <TaskCalendar todayTasks={todayTasks} onDelete={deleteTask} onEdit={callEditToSelectedTask} onToggle={toggleReminder} showEditTask={showEditTask} />
-        </motion.div>
-        <div className='col-12'>
-          <Button/>
+        <div className='row'>
+          <motion.div className='col border-rounded'
+          initial='hidden'
+          animate='visible'
+          variants={variantsForMainTask}
+          >
+          <Header onAdd={callAddTask} showAdd={showAddTask}/>
+          <Route path='/' exact render={(props) => (
+            <>
+              {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
+              {showEditTask && !showAddTask && <EditTask onEdit={editTask}/>}
+            </>
+          )} />
+          <Route path='/about' component={About}/>
+          <Footer/>
+          </motion.div>
+          <motion.div className='col border-rounded'
+          initial='hidden'
+          animate='visible'
+          variants={variantsForCalendar}
+          transition={{delay: 1}}
+          >
+            <TaskCalendar todayTasks={todayTasks} onDelete={deleteTask} onEdit={callEditToSelectedTask} onToggle={toggleReminder} showEditTask={showEditTask} />
+          </motion.div>
+          <div className='col-12 '>
+            <div className='row border-rounded p-5'>
+            <div className='col-12'>
+               
+              <div className={`row ${showFutureTasks && showPastTasks ? 'space-between' : ''}`}>
+                <Button text={'future tasks'} color={'green'} onClick={() => setShowFutureTasks(!showFutureTasks)} showFutureTasks={showFutureTasks} />
+                <Button text={'pasts tasks'} color={'green'} onClick={() => setShowPastTasks(!showPastTasks)} showPastTasks={showPastTasks} />
+              </div> 
+            </div>
+              {showFutureTasks && showPastTasks && tasks.length > 0 ?
+                <>
+                    <Tasks tasks={futureTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} />
+                    <Tasks tasks={pastTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} />
+                </>
+                : showFutureTasks && tasks.length > 0 ? 
+                <Tasks tasks={futureTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} /> : 
+                showPastTasks && tasks.length > 0 ? 
+                <Tasks tasks={pastTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} /> : ("")}
+            </div>
+          </div>
         </div>
     </div>
     </Router>

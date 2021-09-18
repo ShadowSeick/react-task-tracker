@@ -18,18 +18,20 @@ h1.text-center.text-uppercase {
 }
 
 .container {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 1080px;
+  max-width: 1440px;
   margin: 30px auto;
   min-height: 300px;
 }
 
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .col {
   flex:auto;
-  border: 1px solid steelblue;
-  padding: 30px;
-  border-radius: 5px;
+  padding: 2rem;
+  margin: 0 1rem 1rem;
 }
 
 .col-12 {
@@ -37,9 +39,9 @@ h1.text-center.text-uppercase {
   padding: 30px;
 }
 
-.container > * {
-  margin-right: 1rem;
-  margin-bottom: 1rem;
+.border-rounded {
+  border: 1px solid steelblue;
+  border-radius: 5px;
 }
 
 .header {
@@ -50,7 +52,8 @@ h1.text-center.text-uppercase {
 }
 
 .btn {
-  display: inline-block;
+  display: block;
+  float: left;
   background: #000;
   color: #fff;
   border: none;
@@ -74,6 +77,10 @@ h1.text-center.text-uppercase {
 .btn-block {
   display: block;
   width: 100%;
+}
+
+.active {
+  padding: 2rem;
 }
 
 .task {
@@ -147,8 +154,35 @@ footer {
   text-align: center;
 }
 
+.text-warning {
+  color: rgb(180, 9, 23);
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
 .me-1{
   margin-right: 0.25rem;
+}
+
+.p-5 {
+  padding: 1.5rem;
+}
+.d-flex {
+  display: flex;
+}
+
+.shadowed-box {
+  box-shadow: 2.5px 2.5px 10px rgba(88, 92, 97, 0.787), -2.5px 2.5px 10px rgb(197, 197, 209);
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 .click-button:hover {

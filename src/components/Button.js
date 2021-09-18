@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
 
-const Button = ({color, text, onClick}) => {
+const Button = ({color, text, onClick, showFutureTasks, showPastTasks}) => {
 
     return (
         <div>
             <button 
             onClick={onClick} 
             style={{backgroundColor: color}} 
-            className='btn text-uppercase'
+            className= {`btn text-uppercase ${showFutureTasks || showPastTasks ? 'active' : ''}`}
             >
                 {text}
             </button>

@@ -4,13 +4,13 @@ const Tasks = ({tasks, onDelete, onToggle, onEdit}) => {
     const today = new Date().toDateString();
 
     return (
-        <>
+        <div className='col'>
             {orderByDate(tasks)
                 .filter((task) => today !== new Date(task.objectDate).toDateString())
                 .map((task) => (
                     <Task key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} onEdit={onEdit}/>
             ))}
-        </>
+        </div>
     )
 }
 

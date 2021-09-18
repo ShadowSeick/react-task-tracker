@@ -18,8 +18,10 @@ const Task = ({ task, onDelete, onToggle, onEdit, showEditTask }) => {
         variants={variant}
         transition={{duration: '0.5'}}
         >
-            <h3>
-                {task.text} 
+            <h3 >
+                <div>
+                {task.text}
+                </div>
                 <div>
                     <FaEdit style={{color: 'steelblue', cursor: 'pointer'}}
                     onClick={() => onEdit(task.id)} className= 'me-1 click-button'/>
