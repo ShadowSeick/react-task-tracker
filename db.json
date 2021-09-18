@@ -1,3 +1,25 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "text": "One task",
+      "date": "18/9/2021 6:00:00 PM",
+      "objectDate": "2021-09-18T16:00:00.750Z",
+      "reminder": true,
+      "id": 1
+    },
+    {
+      "text": "Other task",
+      "date": "10/9/2021 6:00:00 PM",
+      "objectDate": "2021-09-10T16:00:00.000Z",
+      "reminder": true,
+      "id": 2
+    },
+    {
+      "text": "Antoher one task",
+      "date": "24/9/2021 7:00:00 PM",
+      "objectDate": "2021-09-24T17:00:00.000Z",
+      "reminder": true,
+      "id": 3
+    }
+  ]
 }
