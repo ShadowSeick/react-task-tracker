@@ -68,12 +68,6 @@ function App() {
     setPastTasks(getPastOrFutureTasks(tasks, 'past'));
   }
 
-  // Show Tasks
-  const showFutureOrPastTasks = () => {
-      setShowFutureTasks(!showFutureTasks);
-      setShowPastTasks(!showPastTasks);
-  }
-
   // Fetch Tasks
   const fetchTasks = async () => {
     const res = await fetch('http://localhost:5000/tasks');
