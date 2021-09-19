@@ -195,7 +195,7 @@ function App() {
           variants={variantsForMainTask}
           >
           <Header onAdd={callAddTask} showAdd={showAddTask}/>
-          <Route exact path='/' render={(props) => (
+          <Route exact path='#/' render={(props) => (
             <>
               {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
               {showEditTask && !showAddTask && <EditTask onEdit={editTask}/>}
