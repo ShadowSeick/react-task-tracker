@@ -32,7 +32,7 @@ function App() {
     }
 
     getTasks();
-  }, []);
+  }, );
 
 
   // If true pass Future tasks, if false pass past tasks
