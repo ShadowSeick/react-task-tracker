@@ -195,43 +195,43 @@ function App() {
           variants={variantsForMainTask}
           >
           <Header onAdd={callAddTask} showAdd={showAddTask}/>
-          <Route exact path='#/' render={(props) => (
+          <Route exact path='/' render={(props) => (
             <>
               {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
               {showEditTask && !showAddTask && <EditTask onEdit={editTask}/>}
+              <motion.div className='col border-rounded'
+                          initial='hidden'
+                          animate='visible'
+                          variants={variantsForCalendar}
+                          transition={{delay: 0.2}}
+                          >
+                            <TaskCalendar todayTasks={todayTasks} onDelete={deleteTask} onEdit={callEditToSelectedTask} onToggle={toggleReminder} showEditTask={showEditTask} />
+                            </motion.div>
+                            <div className='col-12 '>
+                              <div className='row border-rounded p-5'>
+                              <div className='col-12'>
+                                
+                                <div className={`row ${showFutureTasks && showPastTasks ? 'space-between' : ''}`}>
+                                  <Button text={'future tasks'} color={'green'} onClick={() => setShowFutureTasks(!showFutureTasks)} showFutureTasks={showFutureTasks} />
+                                  <Button text={'pasts tasks'} color={'green'} onClick={() => setShowPastTasks(!showPastTasks)} showPastTasks={showPastTasks} />
+                                </div> 
+                              </div>
+                                {showFutureTasks && showPastTasks && tasks.length > 0 ?
+                                  <>
+                                      <Tasks tasks={futureTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} />
+                                      <Tasks tasks={pastTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} />
+                                  </>
+                                  : showFutureTasks && tasks.length > 0 ? 
+                                  <Tasks tasks={futureTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} /> : 
+                                  showPastTasks && tasks.length > 0 ? 
+                                  <Tasks tasks={pastTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} /> : ("")}
+                              </div>
+                            </div>
             </>
           )} />
           <Route path='/about' component={About}/>
           <Footer/>
           </motion.div>
-          <motion.div className='col border-rounded'
-          initial='hidden'
-          animate='visible'
-          variants={variantsForCalendar}
-          transition={{delay: 0.2}}
-          >
-            <TaskCalendar todayTasks={todayTasks} onDelete={deleteTask} onEdit={callEditToSelectedTask} onToggle={toggleReminder} showEditTask={showEditTask} />
-          </motion.div>
-          <div className='col-12 '>
-            <div className='row border-rounded p-5'>
-            <div className='col-12'>
-               
-              <div className={`row ${showFutureTasks && showPastTasks ? 'space-between' : ''}`}>
-                <Button text={'future tasks'} color={'green'} onClick={() => setShowFutureTasks(!showFutureTasks)} showFutureTasks={showFutureTasks} />
-                <Button text={'pasts tasks'} color={'green'} onClick={() => setShowPastTasks(!showPastTasks)} showPastTasks={showPastTasks} />
-              </div> 
-            </div>
-              {showFutureTasks && showPastTasks && tasks.length > 0 ?
-                <>
-                    <Tasks tasks={futureTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} />
-                    <Tasks tasks={pastTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} />
-                </>
-                : showFutureTasks && tasks.length > 0 ? 
-                <Tasks tasks={futureTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} /> : 
-                showPastTasks && tasks.length > 0 ? 
-                <Tasks tasks={pastTasks} onDelete={deleteTask} onToggle={toggleReminder} onEdit={callEditToSelectedTask} showEditTask={showEditTask} /> : ("")}
-            </div>
-          </div>
         </div>
     </div>
     </BrowserRouter>
