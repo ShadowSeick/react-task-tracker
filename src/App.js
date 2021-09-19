@@ -208,7 +208,7 @@ function App() {
           initial='hidden'
           animate='visible'
           variants={variantsForCalendar}
-          transition={{delay: 1}}
+          transition={{delay: 0.4}}
           >
             <TaskCalendar todayTasks={todayTasks} onDelete={deleteTask} onEdit={callEditToSelectedTask} onToggle={toggleReminder} showEditTask={showEditTask} />
           </motion.div>
