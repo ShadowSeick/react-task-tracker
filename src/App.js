@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Header from "./components/Header";
 import Footer from './components/Footer';
 import Tasks from "./components/Tasks";
@@ -186,7 +186,7 @@ function App() {
 
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <div className='container'>
         <div className='row'>
           <motion.div className='col border-rounded'
@@ -234,7 +234,7 @@ function App() {
           </div>
         </div>
     </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
