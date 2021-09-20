@@ -162,6 +162,14 @@ footer {
   justify-content: space-between;
 }
 
+.h-100 {
+  height: 100%;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
 .me-1{
   margin-right: 0.25rem;
 }
@@ -169,6 +177,11 @@ footer {
 .p-5 {
   padding: 1.5rem;
 }
+
+.d-block {
+  display: block;
+}
+
 .d-flex {
   display: flex;
 }

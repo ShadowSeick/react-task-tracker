@@ -3,7 +3,7 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { motion } from "framer-motion";
 
-const EditTask = ( { onEdit, taskToEdit } ) => {
+const EditTask = ( { onEdit, taskToEdit, onChange } ) => {
     const [text, setText] = useState(taskToEdit.text);    
     const [date, setDate] = useState(new Date(taskToEdit.objectDate));    
     const [reminder, setReminder] = useState(taskToEdit.reminder);    
@@ -28,7 +28,7 @@ const EditTask = ( { onEdit, taskToEdit } ) => {
         transition={{duration: 0.20}}
         >
         <h2>Edit Task</h2>
-        <form className='add-form' onSubmit={onSubmit}>
+        <form className='add-form' onSubmit={onSubmit} onChange={onChange}>
             <div className='form-control'>
                 <label>Task</label>
                 <input 

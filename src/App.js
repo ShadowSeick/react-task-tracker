@@ -14,7 +14,7 @@ import { motion } from 'framer-motion';
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [showEditTask, setShowEditTask] = useState(false);
-  const [showFutureTasks, setShowFutureTasks] = useState(true);
+  const [showFutureTasks, setShowFutureTasks] = useState(false);
   const [showPastTasks, setShowPastTasks] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [todayTasks, setTodayTasks] = useState([]);
@@ -27,12 +27,10 @@ function App() {
       const tasksFromServer = await fetchTasks();
       setTasks(tasksFromServer);
       updateTodayTasks(tasksFromServer);
-      updateFutureTasks(tasksFromServer);
-      updatePastTasks(tasksFromServer);
     }
 
     getTasks();
-  });
+  }, []);
 
 
   // If true pass Future tasks, if false pass past tasks
@@ -105,12 +103,13 @@ function App() {
 
     setTasks([...tasks, data]);
     updateTodayTasks([...todayTasks, data]);
-    updateFutureTasks([...futureTasks, data]);
-    updatePastTasks([...pastTasks, data]);
+    if (showFutureTasks) updateFutureTasks([...futureTasks, data]);
+    if (showPastTasks) updatePastTasks([...pastTasks, data]);
   }
 
   // Call Edit Task
   const callEditToSelectedTask = async (id) => {
+
     const task = await fetchTask(id);
     setTaskToEdit(task);
     
@@ -129,12 +128,12 @@ function App() {
     });
     const data = await res.json();
 
-    const updatedTasks = todayTasks.map((todayTask) => todayTask.id === id ? data : task);
+    const updatedTasks = tasks.map((todayTask) => todayTask.id === id ? data : todayTask);
 
     setTasks(updatedTasks);
     updateTodayTasks(updatedTasks);
-    updateFutureTasks(updatedTasks);
-    updatePastTasks(updatedTasks)
+    if (showFutureTasks) updateFutureTasks(updatedTasks);
+    if (showPastTasks) updatePastTasks(updatedTasks);
     setShowEditTask(false);  
     
   }
@@ -148,8 +147,8 @@ function App() {
 
     setTasks(updatedTasks);
     updateTodayTasks(updatedTasks);
-    updateFutureTasks(updatedTasks);
-    updatePastTasks(updatedTasks);
+    if (showFutureTasks) updateFutureTasks(updatedTasks);
+    if (showPastTasks) updatePastTasks(updatedTasks);
   }
 
   // Toggle Reminder
@@ -169,8 +168,8 @@ function App() {
 
     setTasks(updatedTasks);
     updateTodayTasks(updatedTasks);
-    updateFutureTasks(updatedTasks);
-    updatePastTasks(updatedTasks);
+    if (showFutureTasks) updateFutureTasks(updatedTasks);
+    if (showPastTasks) updatePastTasks(updatedTasks);
   }
 
   const variantsForMainTask = {
@@ -199,8 +198,15 @@ function App() {
           <Route exact path='/' render={(props) => (
             <>
               {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
-              {showEditTask && !showAddTask && <EditTask onEdit={editTask}/>}
-              <motion.div className='col border-rounded'
+              {showEditTask && !showAddTask && <EditTask onEdit={editTask} taskToEdit={taskToEdit} onChange={() => setTaskToEdit(taskToEdit)}/>}
+            </>
+          )} />
+          <Route path='/about' component={About}/>
+          <Footer className="mt-auto"/>
+          </motion.div>
+          <Route exact path='/' render={(props) => (
+            <>
+            <motion.div className='col h-100'
                           initial='hidden'
                           animate='visible'
                           variants={variantsForCalendar}
@@ -209,7 +215,7 @@ function App() {
                           <TaskCalendar todayTasks={todayTasks} onDelete={deleteTask} onEdit={callEditToSelectedTask} onToggle={toggleReminder} showEditTask={showEditTask} />
               </motion.div>
               <motion.div className='col-12'
-                          initial='hidden'
+                          initial={ { ...variantsForMainTask.hidden, opacity:0 }}
                           animate='visible'
                           variants={variantsForMainTask}
                           transition={{delay: 0.3}}>
@@ -217,8 +223,8 @@ function App() {
                 <div className='col-12'>
                   
                   <div className={`row ${showFutureTasks && showPastTasks ? 'space-between' : ''}`}>
-                    <Button text={'future tasks'} color={'green'} onClick={() => setShowFutureTasks(!showFutureTasks)} showFutureTasks={showFutureTasks} />
-                    <Button text={'pasts tasks'} color={'green'} onClick={() => setShowPastTasks(!showPastTasks)} showPastTasks={showPastTasks} />
+                    <Button text={'future tasks'} color={'green'} onClick={() => {setShowFutureTasks(!showFutureTasks); updateFutureTasks(tasks);}} showFutureTasks={showFutureTasks} />
+                    <Button text={'pasts tasks'} color={'green'} onClick={() => {setShowPastTasks(!showPastTasks); updatePastTasks(tasks)}} showPastTasks={showPastTasks} />
                   </div> 
                 </div>
                   {showFutureTasks && showPastTasks && tasks.length > 0 ?
@@ -234,9 +240,6 @@ function App() {
               </motion.div>
             </>
           )} />
-          <Route path='/about' component={About}/>
-          <Footer/>
-          </motion.div>
         </div>
     </div>
     </BrowserRouter>
