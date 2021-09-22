@@ -197,16 +197,16 @@ function App() {
           transition={{delay: 0.1}}
           >
           <Header onAdd={callAddTask} showAdd={showAddTask}/>
-          <Route exact path={`/react-task-tracker/`} render={(props) => (
+          <Route exact path='/' render={(props) => (
             <>
               {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
               {showEditTask && !showAddTask && <EditTask onEdit={editTask} taskToEdit={taskToEdit} onChange={() => setTaskToEdit(taskToEdit)}/>}
             </>
           )} />
-          <Route path='/react-task-tracker/about' component={About}/>
+          <Route path='/about' component={About}/>
           <Footer className="mt-auto"/>
           </motion.div>
-          <Route exact path={`/react-task-tracker/`} render={(props) => (
+          <Route exact path='/' render={(props) => (
             <>
             <motion.div className='col h-100'
                           initial='hidden'

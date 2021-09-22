@@ -5,7 +5,7 @@ const About = () => {
     return (
         <div className="d-block mt-auto">
             <h4>Version 1.0.0</h4>
-            <Link to='/react-task-tracker'>Go Back</Link>
+            <Link to='/'>Go Back</Link>
         </div>
     )
 }
