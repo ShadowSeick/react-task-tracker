@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { useLocation } from 'react-dom';
 import Header from "./components/Header";
 import Footer from './components/Footer';
 import Tasks from "./components/Tasks";
@@ -182,6 +183,7 @@ function App() {
     visible: {opacity: 1, translateX:200, scaleX: 1}
   }
 
+  const location = useLocation();
 
   return (
     <Switch>
@@ -194,7 +196,7 @@ function App() {
           transition={{delay: 0.1}}
           >
           <Header onAdd={callAddTask} showAdd={showAddTask}/>
-          <Route exact path='/react-task-tracker' render={(props) => (
+          <Route exact path={`/react-task-tracker/`} render={(props) => (
             <>
               {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
               {showEditTask && !showAddTask && <EditTask onEdit={editTask} taskToEdit={taskToEdit} onChange={() => setTaskToEdit(taskToEdit)}/>}
@@ -203,7 +205,7 @@ function App() {
           <Route path='/react-task-tracker/about' component={About}/>
           <Footer className="mt-auto"/>
           </motion.div>
-          <Route exact path='/react-task-tracker' render={(props) => (
+          <Route exact path='/react-task-tracker/' render={(props) => (
             <>
             <motion.div className='col h-100'
                           initial='hidden'
