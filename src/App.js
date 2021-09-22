@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Header from "./components/Header";
 import Footer from './components/Footer';
 import Tasks from "./components/Tasks";
@@ -183,9 +183,8 @@ function App() {
   }
 
 
-
   return (
-    <BrowserRouter>
+    <Switch>
       <div className='container'>
         <div className='row'>
           <motion.div className='col border-rounded'
@@ -195,16 +194,16 @@ function App() {
           transition={{delay: 0.1}}
           >
           <Header onAdd={callAddTask} showAdd={showAddTask}/>
-          <Route exact path='/' render={(props) => (
+          <Route exact path='/react-task-tracker' render={(props) => (
             <>
               {showAddTask && !showEditTask && <AddTask onAdd={addTask}/>}
               {showEditTask && !showAddTask && <EditTask onEdit={editTask} taskToEdit={taskToEdit} onChange={() => setTaskToEdit(taskToEdit)}/>}
             </>
           )} />
-          <Route path='/about' component={About}/>
+          <Route path='/react-task-tracker/about' component={About}/>
           <Footer className="mt-auto"/>
           </motion.div>
-          <Route exact path='/' render={(props) => (
+          <Route exact path='/react-task-tracker' render={(props) => (
             <>
             <motion.div className='col h-100'
                           initial='hidden'
@@ -242,7 +241,7 @@ function App() {
           )} />
         </div>
     </div>
-    </BrowserRouter>
+    </Switch>
   );
 }
 
