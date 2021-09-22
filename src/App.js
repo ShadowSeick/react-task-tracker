@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useLocation } from 'react-dom';
+import { useLocation } from 'react-router';
 import Header from "./components/Header";
 import Footer from './components/Footer';
 import Tasks from "./components/Tasks";
@@ -184,6 +184,7 @@ function App() {
   }
 
   const location = useLocation();
+  console.log(location.pathname, location.pathname === '/react-task-tracker');
 
   return (
     <Switch>
@@ -205,7 +206,7 @@ function App() {
           <Route path='/react-task-tracker/about' component={About}/>
           <Footer className="mt-auto"/>
           </motion.div>
-          <Route exact path='/react-task-tracker/' render={(props) => (
+          <Route exact path={`/react-task-tracker/`} render={(props) => (
             <>
             <motion.div className='col h-100'
                           initial='hidden'
