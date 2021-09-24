@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useLocation } from 'react-router';
 import Header from "./components/Header";
 import Footer from './components/Footer';
 import Tasks from "./components/Tasks";
@@ -69,7 +68,7 @@ function App() {
 
   // Fetch Tasks
   const fetchTasks = async () => {
-    const res = await fetch('http://localhost:5000/tasks');
+    const res = await fetch('https://react-task-tracker-server.herokuapp.com/');
     const data = await res.json();
 
     return data;
@@ -77,7 +76,7 @@ function App() {
 
   // Fetch Task
   const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`);
+    const res = await fetch(`https://react-task-tracker-server.herokuapp.com/${id}`);
     const data = await res.json();
 
     return data;
@@ -91,7 +90,7 @@ function App() {
 
   // Add Task
   const addTask = async (task) => {
-    const res = await fetch('http://localhost:5000/tasks', {
+    const res = await fetch('https://react-task-tracker-server.herokuapp.com/', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -122,7 +121,7 @@ function App() {
   const editTask = async (task) => {
     const id = taskToEdit.id;
     
-    const res = await fetch(`http://localhost:5000/tasks/${id}`,{
+    const res = await fetch(`https://react-task-tracker-server.herokuapp.com/${id}`,{
       method: 'PUT',
       headers: {'Content-type': 'application/json'},
       body: JSON.stringify(task)
@@ -141,7 +140,7 @@ function App() {
 
   // Delete Task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/tasks/${id}`, 
+    await fetch(`https://react-task-tracker-server.herokuapp.com/${id}`, 
     { method: 'DELETE' })
 
     const updatedTasks = tasks.filter((task) => task.id !== id )
@@ -157,7 +156,7 @@ function App() {
     const taskToToggle = await fetchTask(id);
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
     
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+    const res = await fetch(`https://react-task-tracker-server.herokuapp.com/${id}`, {
       method: 'PUT',
       headers: {'Content-type' : 'application/json'},
       body: JSON.stringify(updTask)
@@ -182,9 +181,6 @@ function App() {
     hidden: {opacity:0, x: -200, scaleX: 0.5},
     visible: {opacity: 1, translateX:200, scaleX: 1}
   }
-
-  const location = useLocation();
-  console.log(location.pathname, location.pathname === '/react-task-tracker');
 
   return (
     <Switch>
