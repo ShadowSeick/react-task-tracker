@@ -112,14 +112,14 @@ function App() {
 
     const task = await fetchTask(id);
     setTaskToEdit(task);
-    
+    console.log(task, taskToEdit);
     if (showAddTask) setShowAddTask(!showAddTask);
     setShowEditTask(!showEditTask);
   }
 
   // Edit Task
   const editTask = async (task) => {
-    const id = taskToEdit.id;
+    const id = taskToEdit._id;
     
     const res = await fetch(`https://react-task-tracker-server.herokuapp.com/${id}`,{
       method: 'PATCH',
@@ -128,7 +128,7 @@ function App() {
     });
     const data = await res.json();
 
-    const updatedTasks = tasks.map((todayTask) => todayTask.id === id ? data : todayTask);
+    const updatedTasks = tasks.map((todayTask) => todayTask._id === id ? data : todayTask);
 
     setTasks(updatedTasks);
     updateTodayTasks(updatedTasks);
@@ -143,7 +143,7 @@ function App() {
     await fetch(`https://react-task-tracker-server.herokuapp.com/${id}`, 
     { method: 'DELETE' })
 
-    const updatedTasks = tasks.filter((task) => task.id !== id )
+    const updatedTasks = tasks.filter((task) => task._id !== id )
 
     setTasks(updatedTasks);
     updateTodayTasks(updatedTasks);
@@ -164,7 +164,7 @@ function App() {
 
     const data = await res.json();
 
-    const updatedTasks = tasks.map((task) => task.id === id ? { ...task, reminder: data.reminder } : task);
+    const updatedTasks = tasks.map((task) => task._id === id ? { ...task, reminder: data.reminder } : task);
 
     setTasks(updatedTasks);
     updateTodayTasks(updatedTasks);

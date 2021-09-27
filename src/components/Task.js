@@ -11,7 +11,7 @@ const Task = ({ task, onDelete, onToggle, onEdit, showEditTask }) => {
     return (
         <motion.div 
         className={`task ${task.reminder ? 'reminder' : ''} ${showEditTask ? 'highlighted' : ''}`} 
-        onDoubleClick={() => onToggle(task.id)}
+        onDoubleClick={() => onToggle(task._id)}
         initial='hidden'
         animate='visible'
         exit='exit'
@@ -24,9 +24,9 @@ const Task = ({ task, onDelete, onToggle, onEdit, showEditTask }) => {
                 </div>
                 <div>
                     <FaEdit style={{color: 'steelblue', cursor: 'pointer'}}
-                    onClick={() => onEdit(task.id)} className= 'me-1 click-button'/>
+                    onClick={() => onEdit(task._id)} className= 'me-1 click-button'/>
                     <FaTimes style={{color: 'red', cursor: 'pointer'}}
-                    onClick={() => onDelete(task.id)} className='click-button'/>
+                    onClick={() => onDelete(task._id)} className='click-button'/>
                 </div>
             </h3>
             <p>{task.date}</p>

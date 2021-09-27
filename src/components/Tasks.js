@@ -8,7 +8,7 @@ const Tasks = ({tasks, onDelete, onToggle, onEdit}) => {
             {orderByDate(tasks)
                 .filter((task) => today !== new Date(task.objectDate).toDateString())
                 .map((task) => (
-                    <Task key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} onEdit={onEdit}/>
+                    <Task key={task._id} task={task} onDelete={onDelete} onToggle={onToggle} onEdit={onEdit}/>
             ))}
         </div>
     )
