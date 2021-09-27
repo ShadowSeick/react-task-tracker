@@ -22,7 +22,7 @@ const AddTask = ( { onAdd } ) => {
 
         if (text.length > maxTextLength) {
             setShowAlert(true);
-            setAlertText("The name task is too long. Only 25 characters long");
+            setAlertText("The name task is too long. Only 40 characters long");
             return;
         }
         let completeDate = `${date.toLocaleDateString('es-ES')} ${date.toLocaleTimeString('en-US')}`;

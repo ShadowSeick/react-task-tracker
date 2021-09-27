@@ -157,7 +157,7 @@ function App() {
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
     
     const res = await fetch(`https://react-task-tracker-server.herokuapp.com/${id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: {'Content-type' : 'application/json'},
       body: JSON.stringify(updTask)
     });
